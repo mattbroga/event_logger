@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Click Logger</title>
+</head>
+<body>
+    <h1>Button Click Logger</h1>
+    <form method="POST">
+        {% for button_name in ['Button 1', 'Button 2', 'Button 3', 'Button 4', 'Button 5'] %}
+            <button type="submit" name="button_name" value="{{ button_name }}">
+                {{ button_name }}
+            </button>
+        {% endfor %}
+    </form>
+</body>
+</html>

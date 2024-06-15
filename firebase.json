@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "public": ".",
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "test", // Replace with your service ID
+          "region": "us-east5"                    // Replace with your Cloud Run region
+        }
+      }
+    ]
+  }
+}

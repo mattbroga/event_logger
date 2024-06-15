@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Click Logger</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Button Click Logger</h1><h1 id="time-display"></h1>
+    <form method="POST">
+        <div class="button-container">
+            {% for button_name in ['Button 1', 'Button 2', 'Button 3', 'Button 4', 'Button 5'] %}
+                <button type="submit" name="button_name" value="{{ button_name }}">
+                    {{ button_name }}
+                </button>
+            {% endfor %}
+        </div>
+    </form>
+
+    <script>
+        function updateTime() {
+            const timeDisplay = document.getElementById('time-display');
+            const now = new Date();
+            const options = { timeZoneName: 'short' };
+            timeDisplay.textContent = now.toLocaleString(undefined, options);
+        }
+
+        updateTime(); // Initial update
+        setInterval(updateTime, 1000); // Update every 1000 milliseconds (1 second)
+    </script>
+</body>
+</html>
