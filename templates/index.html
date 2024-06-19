@@ -5,16 +5,37 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Button Click Logger</h1><h1 id="time-display"></h1>
-    <form method="POST">
+    <div class="section header">
+        <h1>Button Click Logger</h1>
+        <h2 id="time-display"></h2>
+    </div>
+
+    <div class="section player-info">
+        <h2>Player Information</h2>
+        <form method="POST">
+            <div class="form-group">
+                <div class="input-container">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-container">
+                    <labelexpand_more for="message">Message:</label>
+                    <textarea id="message" name="message" rows="2"></textarea>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="section buttons">
         <div class="button-container">
-            {% for button_name in ['Button 1', 'Button 2', 'Button 3', 'Button 4', 'Button 5'] %}
+            {% for button_name in ['Start', 'End', 'Pass', 'Carry', 'Shot'] %}
                 <button type="submit" name="button_name" value="{{ button_name }}">
                     {{ button_name }}
                 </button>
             {% endfor %}
         </div>
-    </form>
+    </div>
 
     <script>
         function updateTime() {

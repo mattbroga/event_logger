@@ -1,6 +1,49 @@
+/* Overall Structure */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.section {
+  padding: 20px;
+  text-align: center;
+}
+
+.header, .player-info {
+  flex-shrink: 0; /* Prevent header and player info from shrinking */
+}
+
+.buttons {
+  flex-grow: 1; /* Allow buttons section to expand and fill remaining space */
+}
+
+/* Button Styling */
 .button-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-around; /* Distribute buttons evenly with space between */
+  height: 100%;   /* Make button container fill the height of its section */
+}
+
+.button-container button {
+  width: calc(100% - 20px);
+  padding: 20px 10px;     /* Add padding for taller buttons */
+  font-size: 1.5rem;
+}
+
+/* Form Styling */
+.form-group {
+  display: flex;            /* Make form-group a flex container */
+  gap: 10px;                /* Add space between input containers */
+}
+
+.input-container {
+  flex: 1;                  /* Each input container takes equal space */
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }

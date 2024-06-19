@@ -28,16 +28,27 @@ app = Flask(__name__, static_url_path='/static', static_folder='static')
 def index():
     if request.method == 'POST':
         button_name = request.form['button_name']
-        timestamp = datetime.now().isoformat()  # ISO 8601 format is recommended for timestamps
+        timestamp = datetime.now().isoformat()
 
-        # Log to Firebase Realtime Database
-        users_ref = ref.child('button_logs')  # Reference to the 'button_logs' node
+        # ... (Log to Firebase)
+
+        playername = request.form.get('playername')
+        message = request.form.get('message')
+
+        # Log to Firebase (add username and message)
+        users_ref = ref.child('button_logs')
         users_ref.push().set({
             'button_name': button_name,
-            'timestamp': timestamp
+            'timestamp': timestamp,
+            'playername': playername,   # New field
+            'message': message       # New field
         })
 
-    return render_template('index.html')
+    # Retrieve button logs from Firebase
+    button_logs_ref = db.reference('button_logs')  # Reference to 'button_logs'
+    button_logs = button_logs_ref.get()  # Get all button logs as a dictionary
+
+    return render_template('index.html', button_logs=button_logs)
 
 
 if __name__ == '__main__':
