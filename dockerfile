@@ -4,5 +4,6 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY . .
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]  # Replace 'app:app' with your app's module and variable names if different
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/firebase_credentials.json
 

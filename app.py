@@ -1,43 +1,44 @@
+import os
+import firebase_admin
+from firebase_admin import credentials, db
 from flask import Flask, render_template, request
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+
+# Firebase initialization
+try:
+    cred = credentials.Certificate('firebase_credentials.json')  # Adjust path if needed
+    firebase_admin.initialize_app(cred, {
+      'databaseURL': 'https://event-logger-cf33a-default-rtdb.firebaseio.com/'
+    })
+except ValueError:
+    # Handle invalid JSON format
+    print("Error: Invalid firebase_credentials.json file format.")
+except FileNotFoundError:
+    # Handle missing file
+    print("Error: firebase_credentials.json file not found.")
+
+
+ref = db.reference('/')  # Get a reference to the root of your database
+
 
 #app = Flask(__name__)
 app = Flask(__name__, static_url_path='/static', static_folder='static')
-
-# Database configuration
-engine = create_engine('sqlite:///button_logs.db')  # Adjust for your preferred database
-Base = declarative_base()
-
-class ButtonLog(Base):
-    __tablename__ = 'button_logs'
-    id = Column(Integer, primary_key=True)
-    button_name = Column(String)
-    timestamp = Column(DateTime)
-
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         button_name = request.form['button_name']
-        timestamp = datetime.now()
+        timestamp = datetime.now().isoformat()  # ISO 8601 format is recommended for timestamps
 
-        # Log to database
-        session = Session()
-        log_entry = ButtonLog(button_name=button_name, timestamp=timestamp)
-        session.add(log_entry)
-        session.commit()
-        session.close()
-
-        # Log to text file
-        with open('logs/button_logs.txt', 'a') as log_file:
-            log_file.write(f"{timestamp} - Button '{button_name}' clicked\n")
+        # Log to Firebase Realtime Database
+        users_ref = ref.child('button_logs')  # Reference to the 'button_logs' node
+        users_ref.push().set({
+            'button_name': button_name,
+            'timestamp': timestamp
+        })
 
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
