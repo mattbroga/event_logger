@@ -27,21 +27,15 @@ app = Flask(__name__, static_url_path='/static', static_folder='static')
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        game_name = request.form['game_name']  # Get the game name from the form
         button_name = request.form['button_name']
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.utcnow().isoformat()
 
-        # ... (Log to Firebase)
-
-        playername = request.form.get('playername')
-        message = request.form.get('message')
-
-        # Log to Firebase (add username and message)
-        users_ref = ref.child('button_logs')
-        users_ref.push().set({
+        # Log to Firebase Realtime Database
+        game_ref = ref.child('games').child(game_name)  # Reference to the game
+        game_ref.push().set({  # Push a new event under the game
             'button_name': button_name,
-            'timestamp': timestamp,
-            'playername': playername,   # New field
-            'message': message       # New field
+            'timestamp': timestamp
         })
 
     # Retrieve button logs from Firebase
