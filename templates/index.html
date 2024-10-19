@@ -5,19 +5,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Hockey Game Event Logger</h1>
-    <h1 id="time-display"></h1>
-    <form method="POST">
-        <label for="game_name">Game Name:</label>
-        <input type="text" id="game_name" name="game_name" value="{{ request.form.get('game_name', '') }}" required><br><br>
+    <div class="container">
+        <h1>Hockey Game Event Logger</h1>
+        <h1 id="time-display"></h1>
+        <form method="POST">
+            <label for="game_name">Game Name:</label>
+            <input type="text" id="game_name" name="game_name" value="{{ request.form.get('game_name', '') }}" required><br><br>
 
-        <div class="button-container">
-            <button type="submit" name="button_name" value="shot_attempt_for">Shot Attempt For</button>
-            <button type="submit" name="button_name" value="shot_attempt_against">Shot Attempt Against</button>
-            <button type="submit" name="button_name" value="goal_for">Goal For</button>
-            <button type="submit" name="button_name" value="goal_against">Goal Against</button>
-        </div>
-    </form>
+            <div class="button-container">
+                <button type="submit" name="button_name" value="shot_attempt_for">Shot Attempt For</button>
+                <button type="submit" name="button_name" value="shot_attempt_against">Shot Attempt Against</button>
+                <button type="submit" name="button_name" value="goal_for">Goal For</button>
+                <button type="submit" name="button_name" value="goal_against">Goal Against</button>
+            </div>
+        </form>
+    </div>
 
     <script>
         function updateTime() {
